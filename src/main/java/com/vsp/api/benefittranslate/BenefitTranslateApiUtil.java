@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vsp.restclient.wink.RestClientUtil;
 
-public class BenefitTranslateTest
+public class BenefitTranslateApiUtil
 {
 	protected Logger logger = LoggerFactory.getLogger(getClass().getName());
 
@@ -34,7 +34,7 @@ public class BenefitTranslateTest
 	private static Calendar calobj;
 	public static String currentDate;
 
-	protected BenefitTranslateTest() throws ClientProtocolException, IOException, ParseException 
+	public BenefitTranslateApiUtil() throws ClientProtocolException, IOException, ParseException 
 	{
 		calobj = Calendar.getInstance();
 		currentDate = df.format(calobj.getTime());
@@ -67,7 +67,7 @@ public class BenefitTranslateTest
 		return params;
 	}
 
-	protected void getTranslatedBenefitTypeWithDate(String benefitType, String clientId, String divisionId, String classId, String asOfDate)
+	public void getTranslatedBenefitTypeWithDate(String benefitType, String clientId, String divisionId, String classId, String asOfDate)
 	{
 		MultivaluedMap<String, String> params = getParameters(benefitType, clientId, divisionId, classId, asOfDate);
 		translateBenefit(params);	
