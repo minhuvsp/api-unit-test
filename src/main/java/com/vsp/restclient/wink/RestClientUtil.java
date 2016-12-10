@@ -1,4 +1,4 @@
-package com.vsp.restclient.wink.base;
+package com.vsp.restclient.wink;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

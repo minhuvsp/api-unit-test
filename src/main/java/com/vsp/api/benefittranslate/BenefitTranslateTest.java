@@ -1,4 +1,4 @@
-package com.vsp.restclient.wink.base;
+package com.vsp.api.benefittranslate;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -18,10 +18,9 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vsp.restclient.jaxrs.base.ProcessBase;
-import com.vsp.restclient.jaxrs.base.SimpleRestResponse;
+import com.vsp.restclient.wink.RestClientUtil;
 
-public class BenefitTranslateBase extends ProcessBase
+public class BenefitTranslateTest
 {
 	protected Logger logger = LoggerFactory.getLogger(getClass().getName());
 
@@ -35,7 +34,7 @@ public class BenefitTranslateBase extends ProcessBase
 	private static Calendar calobj;
 	public static String currentDate;
 
-	protected BenefitTranslateBase() throws ClientProtocolException, IOException, ParseException 
+	protected BenefitTranslateTest() throws ClientProtocolException, IOException, ParseException 
 	{
 		calobj = Calendar.getInstance();
 		currentDate = df.format(calobj.getTime());
@@ -68,44 +67,37 @@ public class BenefitTranslateBase extends ProcessBase
 		return params;
 	}
 
-	protected SimpleRestResponse getTranslatedBenefitTypeWithDate(String benefitType, String clientId, String divisionId, String classId, String asOfDate)
+	protected void getTranslatedBenefitTypeWithDate(String benefitType, String clientId, String divisionId, String classId, String asOfDate)
 	{
 		MultivaluedMap<String, String> params = getParameters(benefitType, clientId, divisionId, classId, asOfDate);
-		return translateBenefit(params);	
+		translateBenefit(params);	
 	}	
 
-	protected SimpleRestResponse getTranslatedBenefitTypeWithoutDate(String benefitType, String clientId, String divisionId, String classId)
-	{
-		MultivaluedMap<String, String> params = getParameters(benefitType, clientId, divisionId, classId, null);
-		return translateBenefit(params);	
-	}
-
-	private SimpleRestResponse translateBenefit(MultivaluedMap<String, String> params) {
-		SimpleRestResponse result = new SimpleRestResponse();
+	private void translateBenefit(MultivaluedMap<String, String> params) {
 		try {
 			ClientResponse response = restClientUtil.process(url, token, params, false);
 			JSONParser parser = new JSONParser();
-			
 			if (response != null && response.getMessage().equals("OK")) {
-				result.setSuccess(true);
-				JSONArray benefitArray = (JSONArray) parser.parse(response.getEntity(String.class));
-				JSONObject benefit = (JSONObject) benefitArray.get(0);
-				result.setBenefitName((String) benefit.get("productPackageName"));
 			} else {
-				result.setSuccess(false);
 				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
-				result.setError((String) info.get("description"));
+				System.err.println((String) info.get("description"));
 			}
+
+//			 process bases on what return and what's necessary
+//			if (response != null && response.getMessage().equals("OK")) {
+//				result.setSuccess(true);
+//				JSONArray benefitArray = (JSONArray) parser.parse(response.getEntity(String.class));
+//				JSONObject benefit = (JSONObject) benefitArray.get(0);
+//				result.setBenefitName((String) benefit.get("productPackageName"));
+//			} else {
+//				result.setSuccess(false);
+//				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
+//				result.setError((String) info.get("description"));
+//			}
 		} catch (Exception e1) {
 			logger.error("Exception in translateBenefit()", e1);
 		}
 
-		return result;
 	}
-
-	@Override
-	protected void initializeRestClient() {
-		// nothing to do for this sub class
-	}	
 
 }
