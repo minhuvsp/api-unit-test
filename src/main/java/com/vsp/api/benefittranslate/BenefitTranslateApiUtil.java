@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.prefs.Preferences;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -15,42 +14,32 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.vsp.restclient.wink.RestClientUtil;
+import com.vsp.api.soldrates.RestApiBase;
 
-public class BenefitTranslateApiUtil
+public class BenefitTranslateApiUtil extends RestApiBase
 {
-	protected Logger logger = LoggerFactory.getLogger(getClass().getName());
+	private static final String RESOURCE_URL_FORMAT = "https://%s/benefit-type-translator-web/benefittypes";
+	private static final String SERVER_NAME_TAG = "product-server";
 
-	private static final String BENEFIT_TRANSLATOR_URL_FORMAT = "https://%s/benefit-type-translator-web/benefittypes";
-
-	private RestClientUtil restClientUtil;
-	private String url;
-	private String token;
-//	private JSONParser parser;
 	private final static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	private static Calendar calobj;
 	public static String currentDate;
+	
+	protected String getResourceUrlFormat() {
+		return RESOURCE_URL_FORMAT;
+	}
+
+	protected String getServerNameTag() {
+		return SERVER_NAME_TAG;
+	}
 
 	public BenefitTranslateApiUtil() throws ClientProtocolException, IOException, ParseException 
 	{
+		super();
+
 		calobj = Calendar.getInstance();
 		currentDate = df.format(calobj.getTime());
-
-//		parser = new JSONParser();
-
-		restClientUtil = new RestClientUtil();
-		token = restClientUtil.getToken();
-		
-//		url = "https://api.vsp.com/benefit-type-translator-web/benefittypes";
-		String envName = System.getProperty("env");
-		String serverNameTag = "product-server";
-		Preferences prefsEnv = Preferences.userRoot().node("/preferences/" + envName);
-		String serverName = prefsEnv.get(serverNameTag, "String");
-		url = String.format(BENEFIT_TRANSLATOR_URL_FORMAT, serverName);
-		logger.debug("url={} and token={}", url, token);
 	}
 	
 	private MultivaluedMap<String, String> getParameters(String benefitType, String clientId, String divisionId, String classId, String asOfDate) {
@@ -75,9 +64,17 @@ public class BenefitTranslateApiUtil
 
 	private void translateBenefit(MultivaluedMap<String, String> params) {
 		try {
-			ClientResponse response = restClientUtil.process(url, token, params, false);
+			String token = getToken();
+//			overwrite token from postman or chrome manually 
+//			token = "c4aaf366-2222-4a5a-a5f1-526c1cf602d5";
+			
+			ClientResponse response = getRestClientUtil().process(getUrl(), token, params, false);
+
 			JSONParser parser = new JSONParser();
 			if (response != null && response.getMessage().equals("OK")) {
+				JSONArray resultArray = (JSONArray) parser.parse(response.getEntity(String.class));
+				JSONObject benefit = (JSONObject) resultArray.get(0);
+				System.out.println((String) benefit.get("productPackageName"));
 			} else {
 				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
 				System.err.println((String) info.get("description"));

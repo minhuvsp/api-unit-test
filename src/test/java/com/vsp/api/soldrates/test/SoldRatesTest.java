@@ -1,15 +1,15 @@
-package com.vsp.restclient.wink.test;
+package com.vsp.api.soldrates.test;
 
 import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.simple.parser.ParseException;
 
-import com.vsp.api.benefittranslate.BenefitTranslateApiUtil;
+import com.vsp.api.soldrates.SoldRatesApiUtil;
 
-public class BenefitTranslatorTest {
+public class SoldRatesTest {
 
-	public BenefitTranslatorTest() throws ClientProtocolException, IOException, ParseException {
+	public SoldRatesTest() throws ClientProtocolException, IOException, ParseException {
 		super();
 	}
 	
@@ -26,8 +26,8 @@ public class BenefitTranslatorTest {
 		String asOfDate = effDate.substring(0,4) + "-" + effDate.substring(4,6) + "-" + effDate.substring(6,8);
 		System.out.println("asOfDate=" + asOfDate);			
 
-		BenefitTranslateApiUtil util = new BenefitTranslateApiUtil();
-		util.getTranslatedBenefitTypeWithDate(benefitId, clientId, divisionId, classId, asOfDate);
+		SoldRatesApiUtil util = new SoldRatesApiUtil();
+		util.getSoldRates(benefitId, clientId, divisionId, classId, asOfDate);
 
 //		SimpleRestResponse result = getTranslatedBenefitTypeWithDate(benefitId, clientId, divisionId, classId, asOfDate);
 //     	System.out.println("Done process. Rest Return=" + result);	
@@ -36,7 +36,7 @@ public class BenefitTranslatorTest {
 	   public static void main( String[] args )
 	    {
 	    	try {
-				(new BenefitTranslatorTest()).test();
+				(new SoldRatesTest()).test();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

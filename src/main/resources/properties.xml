@@ -24,7 +24,9 @@
           <entry key="lab-server" value="api.vsp.com"/>
           <entry key="auth_server" value="api.vsp.com"/>
           <entry key="auth_token" value="dnNwLXByb2NsYWltOnNTU2Vpd1BJcW8ySGRzMGpmak1ZV1JLVk9DQ1RSVEp3"/>
-<!-- 
+ <!-- 
+          <entry key="auth_token" value="crLtTPKboDtiPOfINHJ2j99xKlNkXcd3exrrbU4UNLLxH5Fw"/>
+          <entry key="auth_token" value="dnNwLXByb2NsYWltOnNTU2Vpd1BJcW8ySGRzMGpmak1ZV1JLVk9DQ1RSVEp3"/>
           <entry key="server-list" value="gtsprodas-0227,gtsprodas-0229,gtsprodas-0231,gtsprodas-0232,gtsprodas-0233,gtsprodas-0234,gtsprodas-0236,gtsprodas-0237,gtsprodas-0239,gtsprodas-0240,gtsprodas-0262,gtsprodas-0263,gtsprodas-0334,gtsprodas-0335,gtsprodas-0336,gtsprodas-0337,gtsprodas-0326,gtsprodas-0327,gtsprodas-0328,gtsprodas-0329,gtsprodas-0330,gtsprodas-0332,gtsprodas-0333"/>
  -->          
           <entry key="server-list" value="gtsprodas-0612,gtsprodas-0617,gtsprodas-0618"/>

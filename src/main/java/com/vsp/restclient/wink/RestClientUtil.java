@@ -53,7 +53,7 @@ public class RestClientUtil
 	private String auth_server;
 	private String auth_token;
 
-	private String scope = "claim_view client_view eligibility_view member_view product_view provider_view rating_view reference_view";
+	private String scope = "rating_view product_view claim_view client_view eligibility_view member_view provider_view reference_view";
 
 //	private RestClient client;
 
