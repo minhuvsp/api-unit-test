@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.prefs.Preferences;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -35,15 +36,14 @@ public class RestClientUtil
 {
 	protected Logger logger = LoggerFactory.getLogger(getClass().getName());
 
+//	private static final String PROPERTY_FILE_DEFAULT = "src/main/resources/properties.xml";	
+	private static final String PROPERTY_FILE_DEFAULT = "/Users/minhu/preferences/api-unit-test/properties.xml";
+
 	private static final String AUTH_URL_FORMAT = "http://%s/as/oauth/token";
-
+	
 	protected static final String STRING_TYPE = "String";
-
-	private static final String PROPERTY_FILE_DEFAULT = "src/main/resources/properties.xml";
-
 	private static final String CONTENT_TYPE = "Content-Type";
 	private static final String AUTHORIZATION = "Authorization";
-
 	private static final String CONTENT_TYPE_JSON = "application/json";
 	private static final String CONTENT_TYPE_ENCODED = "application/x-www-form-urlencoded";
 	private static final String AUTHORIZATION_TYPE_BASIC = "Basic";
@@ -55,12 +55,8 @@ public class RestClientUtil
 
 	private String scope = "rating_view product_view claim_view client_view eligibility_view member_view provider_view reference_view";
 
-//	private RestClient client;
-
-
 	public RestClientUtil() {
 		readPreferences();
-//        client = new RestClient();
  	}
 
 	private void readPreferences() {
@@ -92,22 +88,32 @@ public class RestClientUtil
        	return getToken(auth_server, auth_token, scope);
 	}
 	
-	public String getToken(String server, String token, String scope) throws ClientProtocolException, IOException, ParseException 
+	public String getToken(String server, String auth, String scope) throws ClientProtocolException, IOException, ParseException 
 	{
 		HttpClient client = HttpClientBuilder.create().build();
 		
 		String authUrl = String.format(AUTH_URL_FORMAT, server);
 		HttpPost post = new HttpPost(authUrl);
-		 
+		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+	
 //		post.setHeader("Accept-Language", "en-US,en;q=0.5");
 //		post.setHeader("Connection", "keep-alive");
 		post.setHeader("Accept", CONTENT_TYPE_JSON);
-		post.setHeader(AUTHORIZATION, AUTHORIZATION_TYPE_BASIC + " " + token);
 		post.setHeader(CONTENT_TYPE, CONTENT_TYPE_ENCODED);
-		
-		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("grant_type", "client_credentials"));
-		urlParameters.add(new BasicNameValuePair("scope", scope));
+
+//		boolean isRating = true;
+		boolean isRating = false;
+		if (isRating) {
+			urlParameters.add(new BasicNameValuePair("scope", "rating_view"));
+			urlParameters.add(new BasicNameValuePair("client_id", "vsp-rating"));
+			urlParameters.add(new BasicNameValuePair("client_secret", auth));
+			String auth_token = "vsp-rating:" + auth;
+			post.setHeader(AUTHORIZATION, AUTHORIZATION_TYPE_BASIC + " " + DatatypeConverter.printBase64Binary(auth_token.getBytes("UTF-8")));			
+		} else {
+			urlParameters.add(new BasicNameValuePair("scope", scope));
+			post.setHeader(AUTHORIZATION, AUTHORIZATION_TYPE_BASIC + " " + auth);			
+		}
 		post.setEntity(new UrlEncodedFormEntity(urlParameters));
 		 
 		HttpResponse response = client.execute(post);
