@@ -76,6 +76,7 @@ public class BenefitTranslateApiUtil extends RestApiBase
 				JSONObject benefit = (JSONObject) resultArray.get(0);
 				System.out.println((String) benefit.get("productPackageName"));
 			} else {
+				System.err.println(response==null? null : response.getMessage());
 				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
 				System.err.println((String) info.get("description"));
 			}
