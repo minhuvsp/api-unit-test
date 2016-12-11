@@ -38,7 +38,9 @@ public abstract class RestApiBase {
 		this.url = url;
 	}
 
-	public String getToken() {
+	public String getToken() throws ClientProtocolException, IOException, ParseException {
+		if (token == null)
+			token = restClientUtil.getToken(false);
 		return token;
 	}
 
@@ -53,7 +55,6 @@ public abstract class RestApiBase {
 	protected void initialize() throws ClientProtocolException, IOException, ParseException {
 
 		restClientUtil = new RestClientUtil();
-		token = restClientUtil.getToken();
 		
 		String envName = System.getProperty("env");
 		String serverNameTag = getServerNameTag();
@@ -61,6 +62,12 @@ public abstract class RestApiBase {
 		String serverName = prefsEnv.get(serverNameTag, "String");
 		url = String.format(getResourceUrlFormat(), serverName);
 		logger.debug("url={} and token={}", url, token);
+	}
+
+	public String getTokenWithClientId() throws ClientProtocolException, IOException, ParseException {
+		if (token == null)
+			token = restClientUtil.getToken(true);
+		return token;
 	}
 
 }

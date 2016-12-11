@@ -50,8 +50,13 @@ public class RestClientUtil
 	private static final String AUTHORIZATION_TYPE_BEARER = "bearer";
 
 	private String envName;
+	
 	private String auth_server;
 	private String auth_token;
+	
+	private String client_scope;
+	private String client_id;
+	private String client_secret;
 
 	private String scope = "rating_view product_view claim_view client_view eligibility_view member_view provider_view reference_view";
 
@@ -77,18 +82,21 @@ public class RestClientUtil
 			auth_server = prefsEnv.get("auth_server", STRING_TYPE);
 			auth_token = prefsEnv.get("auth_token", STRING_TYPE);
 
+			client_scope = prefsEnv.get("client_scope", STRING_TYPE);
+			client_id = prefsEnv.get("client_id", STRING_TYPE);
+			client_secret = prefsEnv.get("client_secret", STRING_TYPE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 			
 	}
 
-	public String getToken() throws ClientProtocolException, IOException, ParseException 
+	public String getToken(boolean hasClientIdAndSecret) throws ClientProtocolException, IOException, ParseException 
 	{
-       	return getToken(auth_server, auth_token, scope);
+       	return getToken(auth_server, auth_token, scope, hasClientIdAndSecret);
 	}
 	
-	public String getToken(String server, String auth, String scope) throws ClientProtocolException, IOException, ParseException 
+	public String getToken(String server, String auth, String scope, boolean hasClientIdAndSecret) throws ClientProtocolException, IOException, ParseException 
 	{
 		HttpClient client = HttpClientBuilder.create().build();
 		
@@ -102,14 +110,12 @@ public class RestClientUtil
 		post.setHeader(CONTENT_TYPE, CONTENT_TYPE_ENCODED);
 		urlParameters.add(new BasicNameValuePair("grant_type", "client_credentials"));
 
-//		boolean isRating = true;
-		boolean isRating = false;
-		if (isRating) {
-			urlParameters.add(new BasicNameValuePair("scope", "rating_view"));
-			urlParameters.add(new BasicNameValuePair("client_id", "vsp-rating"));
-			urlParameters.add(new BasicNameValuePair("client_secret", auth));
-			String auth_token = "vsp-rating:" + auth;
-			post.setHeader(AUTHORIZATION, AUTHORIZATION_TYPE_BASIC + " " + DatatypeConverter.printBase64Binary(auth_token.getBytes("UTF-8")));			
+		if (hasClientIdAndSecret) {
+			urlParameters.add(new BasicNameValuePair("scope", client_scope));
+			urlParameters.add(new BasicNameValuePair("client_id", client_id));
+			urlParameters.add(new BasicNameValuePair("client_secret", client_secret));
+			String auth_combination = client_id + ":" + client_secret;
+			post.setHeader(AUTHORIZATION, AUTHORIZATION_TYPE_BASIC + " " + DatatypeConverter.printBase64Binary(auth_combination.getBytes("UTF-8")));			
 		} else {
 			urlParameters.add(new BasicNameValuePair("scope", scope));
 			post.setHeader(AUTHORIZATION, AUTHORIZATION_TYPE_BASIC + " " + auth);			

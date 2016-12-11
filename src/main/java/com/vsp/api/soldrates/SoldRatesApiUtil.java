@@ -54,7 +54,13 @@ public class SoldRatesApiUtil extends RestApiBase
 
 	private void getSoldRates(MultivaluedMap<String, String> params) {
 		try {
-			String token = getToken();
+			String envName = System.getProperty("env");
+			String token = "";
+			if (envName.equals("PROD")) {
+				token = getTokenWithClientId();
+			} else {
+				token = getToken();				
+			}
 //			overwrite token from postman or chrome manually 
 //			token = "c4aaf366-2222-4a5a-a5f1-526c1cf602d5";
 			
@@ -69,8 +75,7 @@ public class SoldRatesApiUtil extends RestApiBase
 //				JSONObject benefit = (JSONObject) benefitArray.get(0);
 //				System.out.println((String) benefit.get("productPackageName"));
 			} else {
-				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
-				System.err.println((String) info.get("description"));
+				System.err.println(response==null? null : response.getMessage());
 			}
 		} catch (Exception e1) {
 			logger.error("Exception in getSoldRates()", e1);
