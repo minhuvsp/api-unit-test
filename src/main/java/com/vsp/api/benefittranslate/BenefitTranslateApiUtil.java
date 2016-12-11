@@ -15,7 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.vsp.api.soldrates.RestApiBase;
+import com.vsp.restclient.wink.RestApiBase;
 
 public class BenefitTranslateApiUtil extends RestApiBase
 {

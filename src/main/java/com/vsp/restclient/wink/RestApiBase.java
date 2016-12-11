@@ -1,4 +1,4 @@
-package com.vsp.api.soldrates;
+package com.vsp.restclient.wink;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -10,8 +10,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.vsp.restclient.wink.RestClientUtil;
 
 public abstract class RestApiBase {
 

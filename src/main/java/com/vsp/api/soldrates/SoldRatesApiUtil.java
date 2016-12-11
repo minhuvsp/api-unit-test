@@ -14,6 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.vsp.restclient.wink.RestApiBase;
 import com.vsp.restclient.wink.RestClientUtil;
 
 public class SoldRatesApiUtil extends RestApiBase
