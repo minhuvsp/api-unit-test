@@ -37,7 +37,8 @@ public class RestClientUtil
 	protected Logger logger = LoggerFactory.getLogger(getClass().getName());
 
 //	private static final String PROPERTY_FILE_DEFAULT = "src/main/resources/properties.xml";	
-	private static final String PROPERTY_FILE_DEFAULT = "/Users/minhu/preferences/api-unit-test/properties.xml";
+//	private static final String PROPERTY_FILE_DEFAULT = "/Users/minhu/preferences/api-unit-test/properties.xml";
+	private static final String PROPERTY_FILE_DEFAULT = "C:/LocalWAS/preferences/properties.xml";
 
 	private static final String AUTH_URL_FORMAT = "http://%s/as/oauth/token";
 	
@@ -50,6 +51,7 @@ public class RestClientUtil
 	private static final String AUTHORIZATION_TYPE_BEARER = "bearer";
 
 	private String envName;
+	private String properties;
 	
 	private String auth_server;
 	private String auth_token;
@@ -68,8 +70,9 @@ public class RestClientUtil
 		InputStream is = null;
 		String propertyFileName = null;
 		envName = System.getProperty("env");
+		properties = System.getProperty("properties");
 
-		propertyFileName = PROPERTY_FILE_DEFAULT;
+		propertyFileName = (properties == null || properties.trim().length() == 0)? PROPERTY_FILE_DEFAULT : properties;
 
 		try {
 			is = new BufferedInputStream(new FileInputStream(propertyFileName));
