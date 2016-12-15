@@ -19,7 +19,8 @@ import com.vsp.restclient.wink.RestApiBase;
 
 public class ProductApiUtil extends RestApiBase
 {
-	private static final String RESOURCE_URL_FORMAT = "https://%s/product-web/clientproducts";
+//	private static final String RESOURCE_URL_FORMAT = "https://%s/product-web/clientproducts";
+	private static final String RESOURCE_URL_FORMAT = "http://%s/product-web/clientproducts";
 		
 	private static final String SERVER_NAME_TAG = "product-server";
 
@@ -49,6 +50,15 @@ public class ProductApiUtil extends RestApiBase
 		params.add("clientId", clientId);
 		params.add("divisionId", divisionId);
 		params.add("classId", classId);
+		
+		if (asOfDate != null)
+			params.add("asOfDate", asOfDate);
+
+		return params;
+	}
+
+	private MultivaluedMap<String, String> getParametersForRetrieve(String asOfDate) {
+		MultivaluedMap<String, String> params = new MultivaluedMapImpl<String, String>();
 		
 		if (asOfDate != null)
 			params.add("asOfDate", asOfDate);
@@ -88,6 +98,36 @@ public class ProductApiUtil extends RestApiBase
 			logger.error("Exception in product api search()", e1);
 		}
 
+	}
+
+	public JSONObject retrieve(String key, String asOfDate)
+	{
+		MultivaluedMap<String, String> params = getParametersForRetrieve(asOfDate);
+		return retrieve(key, params);	
+	}	
+
+	private JSONObject retrieve(String key, MultivaluedMap<String, String> params) {
+		JSONObject result = null;
+		try {
+			String token = getToken();
+			
+			ClientResponse response = getRestClientUtil().process(getUrl() + "/" + key, token, params, false);
+
+			JSONParser parser = new JSONParser();
+			if (response != null && response.getMessage().equals("OK")) {
+				result = (JSONObject) parser.parse(response.getEntity(String.class));
+//				System.out.println((String) result.toString());
+			} else {
+				System.err.println(response==null? null : response.getMessage());
+//				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
+//				System.err.println((String) info.get("description"));
+			}
+
+		} catch (Exception e1) {
+			logger.error("Exception in product api retrieve()", e1);
+		}
+		
+		return result;
 	}
 
 }

@@ -152,7 +152,9 @@ public class RestClientUtil
 
 	public ClientResponse process(String url, String token, MultivaluedMap<String, String> params, boolean displayFullOutput) 
 	{
-		RestClient client = new RestClient();
+      	 logger.debug("url=" + url);
+
+      	 RestClient client = new RestClient();
 		Resource resource = client.resource(url);
         resource.header(CONTENT_TYPE, CONTENT_TYPE_JSON);
         resource.header(AUTHORIZATION, AUTHORIZATION_TYPE_BEARER + " " + token);
