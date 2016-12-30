@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LogManager;
 import java.util.prefs.Preferences;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -40,7 +41,8 @@ public class RestClientUtil
 //	private static final String PROPERTY_FILE_DEFAULT = "/Users/minhu/preferences/api-unit-test/properties.xml";
 	private static final String PROPERTY_FILE_DEFAULT = "C:/LocalWAS/preferences/properties.xml";
 
-	private static final String AUTH_URL_FORMAT = "http://%s/as/oauth/token";
+//	private static final String AUTH_URL_FORMAT = "http://%s/as/oauth/token";
+	private static final String AUTH_URL_FORMAT = "https://%s/as/oauth/token";
 	
 	protected static final String STRING_TYPE = "String";
 	private static final String CONTENT_TYPE = "Content-Type";
@@ -67,6 +69,13 @@ public class RestClientUtil
  	}
 
 	private void readPreferences() {
+//		try {
+//			LogManager.getLogManager().readConfiguration(RestClientUtil.class.getResourceAsStream("/logging.properties"));
+//		} catch (Exception e) {
+//			System.err.println("Error reading Java Util Logging configuration file.");
+//			e.printStackTrace();
+//		}
+		
 		InputStream is = null;
 		String propertyFileName = null;
 		envName = System.getProperty("env");
@@ -152,9 +161,9 @@ public class RestClientUtil
 
 	public ClientResponse process(String url, String token, MultivaluedMap<String, String> params, boolean displayFullOutput) 
 	{
-      	 logger.debug("url=" + url);
+//      	 logger.debug("url=" + url);
 
-      	 RestClient client = new RestClient();
+      	RestClient client = new RestClient();
 		Resource resource = client.resource(url);
         resource.header(CONTENT_TYPE, CONTENT_TYPE_JSON);
         resource.header(AUTHORIZATION, AUTHORIZATION_TYPE_BEARER + " " + token);

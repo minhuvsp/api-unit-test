@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vsp.api.product.ProductApiUtil;
+import com.vsp.il.util.Preferences;
 
 public class ProductRetrieveTest
 {
@@ -29,7 +30,8 @@ public class ProductRetrieveTest
 
 	int numFileInputLines = 0;
 	int numLinesProcessed = 0;
-	
+	Long totalExecutionTime = 0L;
+
 	public ProductRetrieveTest() throws ClientProtocolException, IOException, ParseException {
 		super();
  	}
@@ -41,13 +43,20 @@ public class ProductRetrieveTest
 		String key = values[0].trim();
 		JSONObject retrieveResult = null;
 		if (key != null && key.length() > 0) {
-			retrieveResult = apiUtil.retrieve(key, asOfDate);
+			Long t1 = System.currentTimeMillis();
+			String effectiveBegin = values[1] == null? asOfDate : values[1].trim();
+			retrieveResult = apiUtil.retrieve(key, effectiveBegin);			
 			
-			if (retrieveResult == null)
-				result = key + SUCCESS;
-			else 
+			if (retrieveResult == null) {
 				result = key + FAILURE;
-				
+			} else {
+				Long t2 = System.currentTimeMillis();
+				Long executionTime = t2 - t1;
+				totalExecutionTime += executionTime;
+				numLinesProcessed++;
+				result = key + SUCCESS;			
+			}
+			
 		}		
 		return result;
 	}
@@ -73,8 +82,10 @@ public class ProductRetrieveTest
 			Long t2 = System.currentTimeMillis();        
 			Long executionTime = t2 - t1;
 			
-			logger.info("rerieveProduct took {} ms", executionTime);
-			logger.info("average time {} ms", executionTime / numFileInputLines);
+			logger.info("rerieveProduct took {} ms for {} records", executionTime, numFileInputLines);
+//			logger.info("average time {} ms", executionTime / numFileInputLines);
+			logger.info("rerieveProduct took total execution time {} ms for {} records", totalExecutionTime, numLinesProcessed);
+			logger.info("average time {} ms", totalExecutionTime / numLinesProcessed);
 
 			String result_file = path + "/output-retrieve.txt";
 			Files.write(Paths.get(result_file), results, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
@@ -98,6 +109,14 @@ public class ProductRetrieveTest
 			System.exit(1);
 		}
 		
+//		if (!Preferences.initialized()) {
+//			Preferences.initialize("restclient", "/Users/minhu/preferences/api-unit-test"); 
+//		}
+		if (!Preferences.initialized()) {
+//			Preferences.initialize();
+			Preferences.initialize("restclient", "./src/main/resources"); 
+		}
+
 		new ProductRetrieveTest().execute(args);
        
 		System.exit(0);

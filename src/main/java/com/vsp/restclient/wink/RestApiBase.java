@@ -1,9 +1,7 @@
 package com.vsp.restclient.wink;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.logging.LogManager;
 import java.util.prefs.Preferences;
 
 import org.apache.http.client.ClientProtocolException;
@@ -54,6 +52,13 @@ public abstract class RestApiBase {
 
 	protected void initialize() throws ClientProtocolException, IOException, ParseException {
 
+//			try {
+//				LogManager.getLogManager().readConfiguration(RestApiBase.class.getResourceAsStream("/logging.properties"));
+//			} catch (Exception e) {
+//				System.err.println("Error reading Java Util Logging configuration file.");
+//				e.printStackTrace();
+//			}
+		
 		restClientUtil = new RestClientUtil();
 		
 		String envName = System.getProperty("env");
