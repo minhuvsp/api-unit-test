@@ -54,7 +54,7 @@ public class ProductRetrieveTest
 				Long executionTime = t2 - t1;
 				totalExecutionTime += executionTime;
 				numLinesProcessed++;
-				result = key + SUCCESS;			
+				result = key + "~" + effectiveBegin + retrieveResult.get("createdBy");			
 			}
 			
 		}		

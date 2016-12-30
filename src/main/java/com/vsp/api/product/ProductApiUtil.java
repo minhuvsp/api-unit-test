@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -121,6 +122,14 @@ public class ProductApiUtil extends RestApiBase
 			if (response != null && response.getMessage().equals("OK")) {
 				result = (JSONObject) parser.parse(response.getEntity(String.class));
 //				System.out.println((String) result.toString());
+				
+				MultivaluedMap<String, String> headers = response.getHeaders();
+				List<String> sources = headers.get("X-Retrieve-Source");
+				String source = sources.get(0);
+				System.out.println(source);
+				
+				// need a better way to pass back X-Retrieve-Source
+				result.replace("createdBy", source);
 			} else {
 				System.err.println(response==null? null : response.getMessage());
 //				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
