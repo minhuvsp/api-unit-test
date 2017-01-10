@@ -39,12 +39,22 @@ public class ProductRetrieveTest
 	private String rerieveProduct(String value) 
 	{
 		String result = NONE;
-		String[] values = value.split("~");
-		String key = values[0].trim();
+//		String[] values = value.split("~");
+		String[] values = value.split(",");
+		String clientId = values[0].trim();
+		String memberListId = values[1].trim();
+		String marketProductTier = values[2].trim();
+		String primaryNetwork = values[3].trim();
+		String marketProductIdentifier = values[4].trim();
+		String asOfDate = values[5].trim();
+		logger.info("input keys = {}-{}-{}-{}-{}-{}", clientId, memberListId, marketProductTier, primaryNetwork, marketProductIdentifier, asOfDate);
+
+		String key = String.format("%s-%s-%s-%s-%s", clientId, memberListId, marketProductTier, primaryNetwork, marketProductIdentifier);
 		JSONObject retrieveResult = null;
 		if (key != null && key.length() > 0) {
 			Long t1 = System.currentTimeMillis();
-			String effectiveBegin = values[1] == null? asOfDate : values[1].trim();
+
+			String effectiveBegin = asOfDate;
 			retrieveResult = apiUtil.retrieve(key, effectiveBegin);			
 			
 			if (retrieveResult == null) {

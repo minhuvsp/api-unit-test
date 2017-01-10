@@ -9,8 +9,8 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.vsp.api.product.test.ProductRetrieveTest"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;/Users/minhu/LocalWAS/product/input&quot; &quot;input-retrieve.txt&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;/Users/minhu/LocalWAS/product/input&quot; &quot;client-product-keys-V.csv&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="api-unit-test"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms64m -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=8&#10;-Denv=LOAD -Dproperties=&quot;/Users/minhu/preferences/api-unit-test/properties.xml&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms64m -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=4&#10;-Denv=LOAD -Dproperties=&quot;/Users/minhu/preferences/api-unit-test/properties.xml&quot;"/>
 </launchConfiguration>
