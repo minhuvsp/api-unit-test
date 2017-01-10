@@ -20,6 +20,7 @@ import com.vsp.il.util.Preferences;
 public class ProductRetrieveTest
 {
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
+	private static final String KEY_FORMAT = "%s-%s-%s-%s-%s";
 	private static String SUCCESS = "Success";
 	private static String FAILURE = "Failure";
 	private static String NONE = "None";
@@ -49,7 +50,7 @@ public class ProductRetrieveTest
 		String asOfDate = values[5].trim();
 		logger.info("input keys = {}-{}-{}-{}-{}-{}", clientId, memberListId, marketProductTier, primaryNetwork, marketProductIdentifier, asOfDate);
 
-		String key = String.format("%s-%s-%s-%s-%s", clientId, memberListId, marketProductTier, primaryNetwork, marketProductIdentifier);
+		String key = String.format(KEY_FORMAT, clientId, memberListId, marketProductTier, primaryNetwork, marketProductIdentifier);
 		JSONObject retrieveResult = null;
 		if (key != null && key.length() > 0) {
 			Long t1 = System.currentTimeMillis();
