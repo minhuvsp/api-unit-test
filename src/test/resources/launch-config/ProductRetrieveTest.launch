@@ -12,5 +12,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;/Users/minhu/LocalWAS/product/input&quot; &quot;client-product-keys-V.csv&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="api-unit-test"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms64m -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=4&#10;-Denv=ACPT -Dproperties=&quot;/Users/minhu/preferences/api-unit-test/properties.xml&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms64m -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=4&#10;-Denv=LOAD -Dproperties=&quot;/Users/minhu/preferences/api-unit-test/properties.xml&quot;"/>
 </launchConfiguration>

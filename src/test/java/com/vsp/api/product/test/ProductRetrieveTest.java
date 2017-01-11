@@ -24,7 +24,8 @@ public class ProductRetrieveTest
 	private static String SUCCESS = "Success";
 	private static String FAILURE = "Failure";
 	private static String NONE = "None";
-
+	private static final String DELIMTER = ":";
+	
 	private ProductApiUtil apiUtil = new ProductApiUtil();
 
 	private String asOfDate = "2016-12-01";
@@ -59,13 +60,13 @@ public class ProductRetrieveTest
 			retrieveResult = apiUtil.retrieve(key, effectiveBegin);			
 			
 			if (retrieveResult == null) {
-				result = key + FAILURE;
+				result = value + DELIMTER + FAILURE;
 			} else {
 				Long t2 = System.currentTimeMillis();
 				Long executionTime = t2 - t1;
 				totalExecutionTime += executionTime;
 				numLinesProcessed++;
-				result = key + "~" + effectiveBegin + retrieveResult.get("createdBy");			
+				result = value + DELIMTER + retrieveResult.get("createdBy");			
 			}
 			
 		}		
