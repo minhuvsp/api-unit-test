@@ -45,11 +45,11 @@ public class ProductTest {
 	private void testRetrieve() throws ClientProtocolException, IOException, ParseException {
 		System.out.println("process ...");
 
-		String clientId = "12120530";
-		String mbrListId = "3371";
-		String tierId = "2000";
-		String networkId = "1000";
-		String marketProductId = "00000012";
+		String clientId = "30061473";
+		String mbrListId = "1204";
+		String tierId = "1000";
+		String networkId = "2000";
+		String marketProductId = "00000020";
 		String asOfDate = "2016-01-01";
 
 		StringBuffer sb = new StringBuffer(clientId).append("-").append(mbrListId).append("-").append(tierId)
