@@ -21,6 +21,7 @@ public class ProductRetrieveTest
 {
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
 	private static final String KEY_FORMAT = "%s-%s-%s-%s-%s";
+	private static final String CLIENT_CLASS_ID_FORMAT = "%s-%s-%s";
 	private static String SUCCESS = "Success";
 	private static String FAILURE = "Failure";
 	private static String NONE = "None";
@@ -73,6 +74,38 @@ public class ProductRetrieveTest
 		return result;
 	}
 
+	private String rerieveProductByClientClassId(String value)
+	{
+		String result = NONE;
+//		String[] values = value.split("~");
+		String[] values = value.split(",");
+		String clientId = values[0].trim();
+		String classId = values[1].trim();
+		String divisionId = classId;
+		logger.info("input keys = {}-{}-{}", clientId, divisionId, classId);
+
+		String key = String.format(CLIENT_CLASS_ID_FORMAT, clientId, divisionId, classId);
+		JSONObject retrieveResult = null;
+		if (key != null && key.length() > 0) {
+			Long t1 = System.currentTimeMillis();
+
+			String effectiveBegin = asOfDate;
+			retrieveResult = apiUtil.retrieve(key, effectiveBegin);
+
+			if (retrieveResult == null) {
+				result = value + DELIMTER + FAILURE;
+			} else {
+				Long t2 = System.currentTimeMillis();
+				Long executionTime = t2 - t1;
+				totalExecutionTime += executionTime;
+				numLinesProcessed++;
+				result = value + DELIMTER + retrieveResult.get("createdBy");
+			}
+
+		}
+		return result;
+	}
+
 	public void execute(String[] args) {
 
 		System.out.println("Start FileSplit ...");
@@ -88,7 +121,8 @@ public class ProductRetrieveTest
 			Long t1 = System.currentTimeMillis();
 			
 			List<String> results = fileInput.parallelStream()
-					.map(string -> rerieveProduct(string))
+//					.map(string -> rerieveProduct(string))
+					.map(string -> rerieveProductByClientClassId(string))
 					.collect(Collectors.toList());
 			
 			Long t2 = System.currentTimeMillis();        

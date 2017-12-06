@@ -60,14 +60,16 @@ public class ProductApiUtil extends RestApiBase
 
 	private MultivaluedMap<String, String> getParametersForRetrieve(String asOfDate) {
 		MultivaluedMap<String, String> params = new MultivaluedMapImpl<String, String>();
-		
-		if (asOfDate != null) {
-//			params.add("asOfDate", asOfDate);
-			params.add("effectiveBegin", asOfDate);
-		}
-		
-		
-		
+
+//		testing relationship
+//		params.add("relation", "member");
+
+		params.add("asOfDate", "2017-12-01");
+
+//		if (asOfDate != null) {
+//			params.add("effectiveBegin", asOfDate);
+//		}
+
 		return params;
 	}
 
