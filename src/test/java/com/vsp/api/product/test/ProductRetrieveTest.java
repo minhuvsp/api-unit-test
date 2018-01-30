@@ -77,11 +77,10 @@ public class ProductRetrieveTest
 	private String rerieveProductByClientClassId(String value)
 	{
 		String result = NONE;
-//		String[] values = value.split("~");
 		String[] values = value.split(",");
 		String clientId = values[0].trim();
-		String classId = values[1].trim();
-		String divisionId = classId;
+		String divisionId = values[1].trim();
+		String classId = values[2].trim();
 		logger.info("input keys = {}-{}-{}", clientId, divisionId, classId);
 
 		String key = String.format(CLIENT_CLASS_ID_FORMAT, clientId, divisionId, classId);
