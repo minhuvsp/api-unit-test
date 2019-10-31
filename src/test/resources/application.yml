@@ -1,0 +1,56 @@
+spring.main.sources: com.vsp.api.productbusupdate
+server.contextPath: /product-bus-update
+
+
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: embedded
+oauth:
+  client_id: product-update-app
+  client_secret: wcrxF5gCFhVC0PPf6yQsKG30MooC5VkvHDZnFW0yyVKNTsPAGcNDise733gX9ABS
+  client_scopes: product_view product_write promotion_view reference_view
+  resource_uri: https://api-integration.vspglobal.com/as/token.oauth2
+product:
+  resource_uri: http://product-dev.vsp.com/product-web/clientproducts
+audit:
+  resource_uri: http://product-dev.vsp.com/product-portal-audit/productaudits
+---
+spring:
+  profiles: dev
+oauth:
+  client_id: product-update-app
+  client_secret: wcrxF5gCFhVC0PPf6yQsKG30MooC5VkvHDZnFW0yyVKNTsPAGcNDise733gX9ABS
+  client_scopes: product_view product_write promotion_view reference_view
+  resource_uri: https://api-integration.vspglobal.com/as/token.oauth2
+product:
+  resource_uri: http://product-dev.vsp.com/product-web/clientproducts
+audit:
+  resource_uri: http://product-dev.vsp.com/product-portal-audit/productaudits
+---
+spring:
+  profiles: test
+oauth:
+  client_id: product-update-app
+  client_secret: FbXLD4e03NGKPvkzj72l5selyRHjBBSHpPFi8n0lOFWUG8IvNTjn1ikXpvDI582L
+  client_scopes: product_view product_write promotion_view reference_view
+  resource_uri: https://api-test.vspglobal.com/as/token.oauth2
+product:
+  resource_uri: http://product-test.vsp.com/product-web/clientproducts
+audit:
+  resource_uri: http://product-test.vsp.com/product-portal-audit/productaudits
+---
+spring:
+  profiles: acpt
+oauth:
+  client_id: product-update-app
+  client_secret: PuQGhGbaNSxa0G4D0PECVLp6aH5zcYKW7idWS1eL24xcuoL83T8EOaMAuuLeQZMF
+  client_scopes: product_view product_write promotion_view reference_view
+  resource_uri: https://api-acpt.vsp.com/as/token.oauth2
+product:
+  resource_uri: http://api-acpt.vsp.com/product-web/clientproducts
+audit:
+  resource_uri: http://api-acpt.vsp.com/product-portal-audit/productaudits
+

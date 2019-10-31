@@ -132,8 +132,8 @@ public class ProductRetrieveTest
 			logger.info("rerieveProduct took total execution time {} ms for {} records", totalExecutionTime, numLinesProcessed);
 			logger.info("average time {} ms", totalExecutionTime / numLinesProcessed);
 
-			String result_file = path + "/output-retrieve.txt";
-			Files.write(Paths.get(result_file), results, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
+//			String result_file = path + "/output-retrieve.txt";
+//			Files.write(Paths.get(result_file), results, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -162,9 +162,14 @@ public class ProductRetrieveTest
 			Preferences.initialize("restclient", "./src/main/resources"); 
 		}
 
-		new ProductRetrieveTest().execute(args);
-       
-		System.exit(0);
+		ProductRetrieveTest test = new ProductRetrieveTest();
+
+		while (true) {
+//			new ProductRetrieveTest().execute(args);
+			test.execute(args);
+		}
+
+//		System.exit(0);
 	}
 
 }

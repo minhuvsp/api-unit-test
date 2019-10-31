@@ -7,7 +7,7 @@
   
 	<properties>
         <api.version>2.7.5</api.version>
-		<api.gb.version>3.6.597</api.gb.version>
+		<api.gb.version>3.8.783</api.gb.version>
 		<sold.rates.fees.storage.version>1.361</sold.rates.fees.storage.version>
 		
 		<junit-version>4.12</junit-version>
@@ -60,7 +60,18 @@
 	</build>
 
 	<dependencies>
-	  	<dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>1.5.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<version>1.5.3.RELEASE</version>
+		</dependency>
+
+		<dependency>
 	  		<groupId>org.apache.wink</groupId>
 	  		<artifactId>wink-client</artifactId>
 	  		<version>1.4</version>
