@@ -70,28 +70,36 @@ public class BenefitTranslateApiUtil extends RestApiBase
 			
 			ClientResponse response = getRestClientUtil().process(getUrl(), token, params, false);
 
-			JSONParser parser = new JSONParser();
-			if (response != null && response.getMessage().equals("OK")) {
-				JSONArray resultArray = (JSONArray) parser.parse(response.getEntity(String.class));
-				JSONObject benefit = (JSONObject) resultArray.get(0);
-				System.out.println((String) benefit.get("productPackageName"));
-			} else {
-				System.err.println(response==null? null : response.getMessage());
-				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
-				System.err.println((String) info.get("description"));
+			if (response != null) {
+				JSONParser parser = new JSONParser();
+				JSONObject jsonObject = null;
+				Object obj = parser.parse(response.getEntity(String.class));
+				// need test to see if the result is array of objects or just one object
+				if (obj instanceof JSONArray) {
+					JSONArray resultArray = (JSONArray)obj;
+					jsonObject = (JSONObject)resultArray.get(0);
+				} else if (obj instanceof JSONObject) {
+					jsonObject = (JSONObject)obj;
+				}
+
+				if (!response.getMessage().equals("OK")) {
+//				errorMessage = (String) jsonObject.get("message");
+					System.err.println((String) jsonObject.get("description"));
+				} else {
+					System.out.println((String) jsonObject.get("productPackageName"));
+				}
 			}
 
-//			 process bases on what return and what's necessary
 //			if (response != null && response.getMessage().equals("OK")) {
-//				result.setSuccess(true);
-//				JSONArray benefitArray = (JSONArray) parser.parse(response.getEntity(String.class));
-//				JSONObject benefit = (JSONObject) benefitArray.get(0);
-//				result.setBenefitName((String) benefit.get("productPackageName"));
+//				JSONArray resultArray = (JSONArray) parser.parse(response.getEntity(String.class));
+//				JSONObject benefit = (JSONObject) resultArray.get(0);
+//				System.out.println((String) benefit.get("productPackageName"));
 //			} else {
-//				result.setSuccess(false);
+//				System.err.println(response==null? null : response.getMessage());
 //				JSONObject info = (JSONObject) parser.parse(response.getEntity(String.class));
-//				result.setError((String) info.get("description"));
+//				System.err.println((String) info.get("description"));
 //			}
+
 		} catch (Exception e1) {
 			logger.error("Exception in translateBenefit()", e1);
 		}
